@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile</title>
+  <meta name="description" content="Profile" />
+
+  <style>
+    :root{
+      --bg-0:#120a06;
+      --bg-1:#2a140b;
+      --bg-2:#6a3a1e;
+
+      --stroke: rgba(255,255,255,.16);
+      --shadow: 0 24px 60px rgba(0,0,0,.55);
+      --shadow-soft: 0 14px 40px rgba(0,0,0,.40);
+
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --muted2: rgba(255,255,255,.56);
+
+      --radius-xl: 34px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(900px 900px at 18% 20%, rgba(255,170,95,.20), transparent 60%),
+        radial-gradient(700px 700px at 85% 25%, rgba(255,210,160,.14), transparent 55%),
+        radial-gradient(800px 800px at 60% 90%, rgba(255,125,45,.12), transparent 55%),
+        linear-gradient(160deg, var(--bg-0) 0%, var(--bg-1) 35%, var(--bg-2) 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 28px 16px;
+    }
+
+    /* Phone frame */
+    .phone {
+      width: min(420px, 100%);
+      aspect-ratio: 9 / 16;
+      border-radius: 44px;
+      padding: 18px;
+      position: relative;
+      box-shadow: 0 40px 90px rgba(0,0,0,.65);
+      overflow: hidden;
+      background: rgba(0,0,0,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+    }
+
+    /* studio vignette */
+    .phone::before{
+      content:"";
+      position:absolute; inset:-120px;
+      background:
+        radial-gradient(closest-side at 30% 25%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(closest-side at 70% 20%, rgba(255,220,170,.08), transparent 65%),
+        radial-gradient(closest-side at 55% 80%, rgba(0,0,0,.25), transparent 60%);
+      filter: blur(2px);
+      pointer-events:none;
+    }
+
+    .content{
+      position: relative;
+      height: 100%;
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+      padding: 8px 6px;
+    }
+
+    /* Glass card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+      transform: translateZ(0);
+    }
+    .card::after{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(900px 220px at 20% 15%, rgba(255,255,255,.18), transparent 55%);
+      pointer-events:none;
+    }
+
+    .header{
+      padding: 22px 18px 18px;
+      min-height: 290px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap: 10px;
+    }
+
+    .avatarWrap{
+      width: 110px; height:110px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      margin-top: 6px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.22);
+      box-shadow:
+        0 18px 40px rgba(0,0,0,.45),
+        0 0 0 6px rgba(255,255,255,.06),
+        0 0 30px rgba(255,190,120,.18);
+    }
+    .avatar{
+      width: 98px; height:98px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
+      background: rgba(0,0,0,.12);
+    }
+
+    .name{
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      text-align:center;
+      margin: 6px 0 0;
+      line-height: 1.15;
+      text-shadow: 0 10px 28px rgba(0,0,0,.35);
+      color:#fff;
+    }
+    .username{
+      margin: 0;
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .info{
+      width: 100%;
+      margin-top: 10px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .row{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(0,0,0,.14);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+    }
+    .row .label{
+      font-size: 14px;
+      color: var(--muted2);
+      display:block;
+    }
+    .row .value{
+      font-size: 15px;
+      font-weight: 650;
+      color: #fff;
+      word-break: break-word;
+    }
+    .miniIcon{
+      width: 20px; height: 20px;
+      flex: 0 0 20px;
+      opacity: .95;
+    }
+
+    .sectionTitle{
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      color: rgba(255,255,255,.86);
+      margin: 2px 6px -6px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .divider{
+      height:1px; flex: 1;
+      background: linear-gradient(90deg, rgba(255,255,255,.18), rgba(255,255,255,0));
+    }
+
+    .socialList{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      padding: 0 2px;
+      margin-top: 4px;
+      flex: 1;
+      overflow:hidden;
+    }
+
+    a.socialCard{
+      text-decoration:none;
+      color: #fff;
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 14px 14px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow:hidden;
+      transform: translateY(0);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    a.socialCard::after{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(500px 160px at 20% 10%, rgba(255,255,255,.14), transparent 55%);
+      pointer-events:none;
+    }
+    a.socialCard:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+      border-color: rgba(255,255,255,.22);
+    }
+    a.socialCard:active{ transform: translateY(0px); }
+
+    .brandIcon{
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.10), 0 10px 22px rgba(0,0,0,.35);
+      overflow:hidden;
+    }
+    .brandIcon svg{ width: 26px; height: 26px; display:block; }
+
+    .socialText{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .socialText .title{
+      font-weight: 850;
+      font-size: 18px;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .socialText .sub{
+      font-size: 13px;
+      color: rgba(255,255,255,.70);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      max-width: 280px;
+    }
+
+    .chev{
+      margin-left:auto;
+      opacity:.7;
+      width: 18px; height:18px;
+      flex: 0 0 18px;
+    }
+
+    .safe{ height: 10px; }
+
+    @media (max-width: 360px){
+      .name{ font-size: 26px; }
+      .phone{ padding: 14px; border-radius: 38px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="phone" role="img" aria-label="Personal Profile UI">
+    <div class="content">
+
+      <!-- Header Card -->
+      <section class="card header">
+        <div class="avatarWrap" aria-label="Avatar">
+          <!-- Replace with your real photo -->
+          <img class="avatar" src="assets/avatar.jpg" alt="User avatar" />
+        </div>
+
+        <h1 class="name">Phan Thanh Tuấn</h1>
+        <p class="username">@tuanfang787</p>
+
+        <div class="info">
+          <!-- Email row -->
+          <div class="row">
+            <svg class="miniIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z" stroke="rgba(255,255,255,.85)" stroke-width="1.6"/>
+              <path d="m5.5 7 6.1 5.1c.24.2.56.2.8 0L18.5 7" stroke="rgba(255,255,255,.85)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <span class="label">Email</span>
+              <span class="value">thanhtuangm2005@gmail.com</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Social Links -->
+      <div class="sectionTitle">
+        Social Links <span class="divider" aria-hidden="true"></span>
+      </div>
+
+      <section class="socialList" aria-label="Social Links">
+
+        <!-- TikTok -->
+        <a class="socialCard" href="https://www.tiktok.com/@tuanfang787" target="_blank" rel="noopener">
+          <span class="brandIcon" aria-hidden="true" style="background:#0b0b0f;border-color:rgba(255,255,255,.10)">
+            <svg viewBox="0 0 256 256" aria-hidden="true">
+              <path fill="#25F4EE" d="M152 38v114.7c0 25.6-20.7 46.3-46.3 46.3s-46.3-20.7-46.3-46.3S80.1 106.4 105.7 106.4c4.1 0 8.1.5 11.9 1.6V74.5a78.3 78.3 0 0 0-11.9-.9c-43.3 0-78.4 35.1-78.4 78.4s35.1 78.4 78.4 78.4 78.4-35.1 78.4-78.4V108.8c15.6 11.2 34.7 17.8 55.4 18.0V94.1c-35.3-1.2-63.5-30.1-67.5-56.1Z"
+                    transform="translate(-14,0)"/>
+              <path fill="#FE2C55" d="M152 38v114.7c0 25.6-20.7 46.3-46.3 46.3s-46.3-20.7-46.3-46.3S80.1 106.4 105.7 106.4c4.1 0 8.1.5 11.9 1.6V83.2c-3.9-1.0-7.9-1.5-11.9-1.5c-39.2 0-71 31.8-71 71s31.8 71 71 71s71-31.8 71-71V38h27.8c4.8 28.3 29.1 50.3 60 52.0V116c-20.3-.2-39.2-6.5-55.4-17.7v54.4c0 43.3-35.1 78.4-78.4 78.4S27.3 196 27.3 152.7s35.1-78.4 78.4-78.4c4 0 8 .3 11.9.9V108c-3.8-1.1-7.8-1.6-11.9-1.6c-25.6 0-46.3 20.7-46.3 46.3s20.7 46.3 46.3 46.3S152 178.3 152 152.7V38Z"
+                    opacity=".95" transform="translate(10,0)"/>
+              <path fill="#ffffff" d="M162 38v114.7c0 31.0-25.1 56.1-56.1 56.1s-56.1-25.1-56.1-56.1 25.1-56.1 56.1-56.1c5.1 0 10 .7 14.7 2.0V73.3a81.2 81.2 0 0 0-14.7-1.3c-44.9 0-81.3 36.4-81.3 81.3s36.4 81.3 81.3 81.3 81.3-36.4 81.3-81.3V103.5c15.6 11.6 34.8 18.6 55.6 18.8V96.3c-35.5-1.4-64.0-30.6-67.6-58.3H162Z"/>
+            </svg>
+          </span>
+          <span class="socialText">
+            <span class="title">TikTok</span>
+            <!-- <span class="sub">tiktok.com/@tuanfang787</span> -->
+          </span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m9 6 6 6-6 6" stroke="rgba(255,255,255,.75)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <!-- Instagram -->
+        <a class="socialCard" href="https://www.instagram.com/tuanfang787/" target="_blank" rel="noopener">
+          <span class="brandIcon" aria-hidden="true" style="background:transparent;border-color:rgba(255,255,255,.10)">
+            <svg viewBox="0 0 256 256" aria-hidden="true">
+              <defs>
+                <radialGradient id="igR" cx="30%" cy="110%" r="140%">
+                  <stop offset="0%" stop-color="#FEDA75"/>
+                  <stop offset="25%" stop-color="#FA7E1E"/>
+                  <stop offset="50%" stop-color="#D62976"/>
+                  <stop offset="75%" stop-color="#962FBF"/>
+                  <stop offset="100%" stop-color="#4F5BD5"/>
+                </radialGradient>
+              </defs>
+              <rect x="32" y="32" width="192" height="192" rx="52" fill="url(#igR)"/>
+              <rect x="78" y="78" width="100" height="100" rx="36" fill="none" stroke="#fff" stroke-width="16"/>
+              <circle cx="128" cy="128" r="26" fill="none" stroke="#fff" stroke-width="16"/>
+              <circle cx="176" cy="80" r="10" fill="#fff"/>
+            </svg>
+          </span>
+          <span class="socialText">
+            <span class="title">Instagram</span>
+            <!-- <span class="sub">instagram.com/tuanfang787</span> -->
+          </span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m9 6 6 6-6 6" stroke="rgba(255,255,255,.75)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <!-- Facebook -->
+        <a class="socialCard" href="https://www.facebook.com/tuanfang787" target="_blank" rel="noopener">
+          <span class="brandIcon" aria-hidden="true" style="background:transparent;border-color:rgba(255,255,255,.10)">
+            <svg viewBox="0 0 256 256" aria-hidden="true">
+              <rect x="32" y="32" width="192" height="192" rx="52" fill="#1877F2"/>
+              <path fill="#fff" d="M150 224v-68h22l4-28h-26V110c0-8 4-16 17-16h12V70s-11-2-22-2c-23 0-38 14-38 40v20H92v28h27v68h31Z"/>
+            </svg>
+          </span>
+          <span class="socialText">
+            <span class="title">Facebook</span>
+            <!-- <span class="sub">facebook.com/tuanfang787</span> -->
+          </span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m9 6 6 6-6 6" stroke="rgba(255,255,255,.75)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <!-- Zalo (phone in social) -->
+        <a class="socialCard" href="https://zalo.me/0982209358" target="_blank" rel="noopener">
+          <span class="brandIcon" aria-hidden="true" style="background:transparent;border-color:rgba(255,255,255,.10)">
+            <svg viewBox="0 0 256 256" aria-hidden="true">
+              <rect x="32" y="32" width="192" height="192" rx="52" fill="#0068FF"/>
+              <text x="128" y="154" text-anchor="middle"
+                    font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto"
+                    font-size="58" font-weight="900" fill="#fff">Zalo</text>
+            </svg>
+          </span>
+          <span class="socialText">
+            <span class="title">Zalo</span>
+            <!-- <span class="sub">0982209358</span> -->
+          </span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m9 6 6 6-6 6" stroke="rgba(255,255,255,.75)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <div class="safe" aria-hidden="true"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // Avatar fallback if missing
+    const img = document.querySelector('.avatar');
+    img.addEventListener('error', () => {
+      img.removeAttribute('src');
+      img.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), rgba(0,0,0,.15))';
+    });
+  </script>
+</body>
+</html>

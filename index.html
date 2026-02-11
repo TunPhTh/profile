@@ -66,7 +66,7 @@
       /* Phone frame */
       .phone {
         width: min(420px, 100%);
-        aspect-ratio: 9 / 16;
+        /* aspect-ratio: 9 / 16; */
         border-radius: 44px;
         padding: 18px;
         position: relative;
@@ -143,7 +143,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 5px;
       }
 
       .avatarWrap {
@@ -410,13 +410,85 @@
         margin-top: 0;
         flex: 0;
       }
-      @media (max-width: 360px) {
+      
+      /* ====== MOBILE COMPACT: không cuộn nhưng vẫn thấy đủ tới Zalo ====== */
+      @media (max-height: 820px), (max-width: 420px) {
+        /* giảm padding tổng */
+        .phone {
+          padding: 14px;
+        }
+        .content {
+          gap: 12px;
+          padding: 6px 4px;
+        }
+
+        /* header nhỏ lại */
+        .header {
+          padding: 16px 14px 14px;
+          min-height: 250px; /* giảm để chừa chỗ cho social */
+          gap: 8px;
+        }
+
+        /* avatar nhỏ */
+        .avatarWrap {
+          width: 92px;
+          height: 92px;
+        }
+        .avatar {
+          width: 82px;
+          height: 82px;
+        }
+
+        /* chữ nhỏ chút */
         .name {
           font-size: 26px;
         }
-        .phone {
-          padding: 14px;
-          border-radius: 38px;
+        .username {
+          font-size: 14px;
+        }
+
+        /* email row nhỏ */
+        .row {
+          padding: 9px 10px;
+        }
+        .row .value {
+          font-size: 14px;
+        }
+
+        /* social panel nhỏ lại */
+        .socialPanel {
+          padding: 12px 12px 12px;
+        }
+        .sectionInPanel {
+          margin: 0 6px 8px;
+        }
+
+        /* social cards thấp hơn */
+        a.socialCard {
+          padding: 12px 12px;
+          border-radius: 18px;
+        }
+
+        .brandIcon {
+          width: 30px;
+          height: 30px;
+          border-radius: 11px;
+        }
+        .brandIcon svg {
+          width: 22px;
+          height: 22px;
+        }
+
+        .socialText .title {
+          font-size: 16px;
+        }
+        .socialText .sub {
+          font-size: 12px;
+        }
+
+        /* bỏ spacer đáy nếu có */
+        .safe {
+          height: 0;
         }
       }
     </style>
